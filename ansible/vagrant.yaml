@@ -1,0 +1,12 @@
+---
+- hosts: vagrant
+  vars:
+    nginx_user: vagrant
+  become:
+    true
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+   - nginx

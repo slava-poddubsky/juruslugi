@@ -1,0 +1,23 @@
+- name: Install Nginx Web Server
+  apt:
+    name=nginx
+    state=latest
+  notify:
+    - nginx systemd
+
+- name: Replace nginx.conf
+  template:
+    src: templates/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Create home directory for www
+  file:
+    path=/mnt/web/
+    state=directory
+
+- name: Add nginx_vhosts.conf to sites-enabled
+  template:
+    src: templates/nginx_vhosts.conf
+    dest: /etc/nginx/sites-enabled/{{ virtual_domain }}
+  notify:
+    - nginx restart
